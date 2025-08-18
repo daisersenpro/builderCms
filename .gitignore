@@ -1,0 +1,29 @@
+# Archivos de sistema
+.DS_Store
+Thumbs.db
+
+# Archivos temporales
+*.tmp
+*.temp
+*.log
+
+# Dependencias de Composer (se pueden regenerar)
+/api/vendor/
+
+# Archivos de configuración local (si los tienes)
+*.local.php
+config.local.php
+
+# Archivos de backup
+*.backup
+*.bak
+
+# Archivos de IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Archivos de cache
+cache/
+tmp/

@@ -1,0 +1,11 @@
+body {
+  font-size: .875rem;
+  height: 100%;
+  margin: 0px;
+  padding: 0px;
+}
+
+a:link, a:visited, a:hover, a:active{
+  text-decoration: none !important;
+  color: inherit !important;
+}
