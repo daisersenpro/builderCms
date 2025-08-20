@@ -25,21 +25,18 @@
 
     <?php foreach ($landings as $key => $value): ?>
 
-      <div class="col my-3">
-        
-        <img src="<?php echo !empty($value->cover_landing) ? $value->cover_landing : '/views/assets/img/placeholder-square.svg' ?>" class="img-fluid rounded">
+    <div class="col my-3">
+    <img src="<?php echo !empty($value->cover_landing) ? $value->cover_landing : '/views/assets/img/placeholder-square.svg' ?>" class="img-fluid rounded">
 
-        <div class="text-center mt-3">
-          
-          <h6 class="font-weight-light">
-            <a href="/code/<?php echo $value->url_landing ?>" class="text-decoration-none">
-              <?php echo $value->title_landing ?> 
-              <small><span data-feather="edit"></span></small>
-            </a>
-          </h6>
-        </div>
-
-      </div>
+    <div class="text-center mt-3">
+      <h6 class="font-weight-light mb-2">
+        <?php echo $value->title_landing ?>
+      </h6>
+      <a href="/code/<?php echo $value->url_landing ?>" class="btn btn-sm btn-outline-primary">
+        Editar <span data-feather="edit"></span>
+      </a>
+    </div>
+    </div>
 
     <?php endforeach ?>
 

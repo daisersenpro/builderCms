@@ -25,60 +25,34 @@ foreach ($routesArray as $key => $value) {
 }
 
 
-if(isset($routesArray[0])){
-
-	/*=============================================
-	Validar si viene Página Web
-	=============================================*/ 
-	$select = "*";
-	$url = "http://api.builder.com/relations?rel=codes,landings&type=code,landing&linkTo=url_landing&equalTo=".$routesArray[0]."&select=".$select;
-	$method = "GET";
-	$fields = array();
-
-	$page = CurlController::request($url, $method, $fields);
-	
-	if($page->status == 200){
-
-		$page = $page->results[0];
-		
-	
-	}else{
-
-		$page = null;
-
-		/*=============================================
-		Validar si viene Landing con códigos
-		=============================================*/ 
-
-		if($routesArray[0] == "code" && isset($routesArray[1])){
-
-			$select = "*";
-
-			$url = "http://api.builder.com/relations?rel=codes,landings&type=code,landing&linkTo=url_landing&equalTo=".$routesArray[1]."&select=".$select;
-			$method = "GET";
-			$fields = array();
-
-			$code = CurlController::request($url, $method, $fields);
-
-			if($code->status == 200){
-
-				$code = $code->results[0];
-
-			}else{
-
-				echo '<script>
-
-				window.location = "/";
-
-				</script>';
-
-				return;
-			}
-
+// Routing principal
+if (isset($routesArray[0])) {
+	// Si la ruta es /code/{url_landing}
+	if ($routesArray[0] == "code" && isset($routesArray[1])) {
+		$select = "*";
+		$url = "http://api.builder.com/relations?rel=codes,landings&type=code,landing&linkTo=url_landing&equalTo=" . $routesArray[1] . "&select=" . $select;
+		$method = "GET";
+		$fields = array();
+		$code = CurlController::request($url, $method, $fields);
+		if ($code->status == 200) {
+			$code = $code->results[0];
+		} else {
+			echo '<script>window.location = "/";</script>';
+			return;
 		}
-
+	} else {
+		// Si la ruta es /{url_landing} (página pública)
+		$select = "*";
+		$url = "http://api.builder.com/relations?rel=codes,landings&type=code,landing&linkTo=url_landing&equalTo=" . $routesArray[0] . "&select=" . $select;
+		$method = "GET";
+		$fields = array();
+		$page = CurlController::request($url, $method, $fields);
+		if ($page->status == 200) {
+			$page = $page->results[0];
+		} else {
+			$page = null;
+		}
 	}
-
 }
 
 $path = $_SERVER["REQUEST_SCHEME"]."://".$_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
@@ -221,23 +195,17 @@ $path = $_SERVER["REQUEST_SCHEME"]."://".$_SERVER["SERVER_NAME"].$_SERVER["REQUE
 					<?php 
 
 					if (!empty($routesArray[0])){
-
-						if($routesArray[0] == "login" || $routesArray[0] == "logout" || $routesArray[0] == "code"){
-
+						if($routesArray[0] == "login" || $routesArray[0] == "logout"){
 							include "pages/".$routesArray[0]."/".$routesArray[0].".php";
-
-						}else{
-
+						} elseif($routesArray[0] == "code" && isset($code)) {
+							include "pages/code/code.php";
+						} else {
 							include "pages/home/home.php";
 						}
-
 					}else{
-
 						include "pages/home/home.php";
-
 					}
-
-				    ?>
+					?>
 
 				</main>
 
